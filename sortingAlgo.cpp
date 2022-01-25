@@ -181,6 +181,39 @@ void quickSortMid(int *ar,int l,int r){
     quickSortMid(ar,p,r);
 }
 
+// heap sort
+// time complexity  O(n log n)
+void heapifyTopBottom(int *ar,int index,int n){
+  int left = index * 2 + 1; // left child
+  int right = index * 2 + 2;// right child
+  int max = index;
+
+  if(left < n && ar[left] > ar[max])
+    max = left;
+  if(right < n && ar[right] > ar[max])
+    max = right;
+  
+  if(max != index){
+    swap(ar[max],ar[index]);
+    heapifyTopBottom(ar,max,n);
+  }
+} 
+
+// ascending order sorting
+void heapSort(int *ar,int n){
+  // first convert the array into a max heap tree
+  for(int i= (n/2) - 1 ; i >= 0 ; --i)// this loop only touches the parents
+    heapifyTopBottom(ar,i,n);//and not the leaf nodes which are not parents
+  
+  // now,switch the elements in the last and topmost location
+  // decrease the size of the heap by 1
+  // continue this cycle for every loop from range n-1 --> 1 (inclusive)
+  for(int i=n-1 ; i>0 ;--i){
+    swap(ar[0],ar[i]);//swapping the last most and top most
+    heapifyTopBottom(ar,0,i);
+  }
+}
+
 int main(){
   int n;
   cout<<"Total Values: ";
@@ -199,6 +232,7 @@ int main(){
   // mergeSort(ar,0,n-1);
   // quickSortFirst(ar,0,n-1);
   // quickSortLast(ar,0,n-1);
-  quickSortMid(ar,0,n-1);
+  // quickSortMid(ar,0,n-1);
+  heapSort(ar,n);
   print(ar,n);
 }
