@@ -43,6 +43,10 @@ node* rgtRotate(node *root){
   newRoot->right = root;
   root->left = temp;
   root->height = 1 + max(h(root->left),h(root->right));
+  //update the root height first as it will be used further
+  // in the calculation of the height of the newRoot
+  // if you change the order the output changes **Beware**
+  // in other words ur output is wrong
   newRoot->height = 1 + max(h(newRoot->left),h(newRoot->right));
   return newRoot;
 }
@@ -63,6 +67,10 @@ node* lftRotate(node *root){
   newRoot->left = root;
   root->right = temp;
   root->height = 1 + max(h(root->left),h(root->right));
+  //update the root height first as it will be used further
+  // in the calculation of the height of the newRoot
+  // if you change the order the output changes **Beware**
+  // in other words ur output is wrong
   newRoot->height = 1 + max(h(newRoot->left),h(newRoot->right));
   return newRoot;
 }
