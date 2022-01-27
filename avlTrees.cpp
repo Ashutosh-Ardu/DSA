@@ -151,7 +151,8 @@ node* delNode(node *root,int key){
     else{// complete node
       node* temp = minNode(root->right);//here max of left subtree can also be used
       root->data = temp->data;
-      root = delNode(root->right,root->data);
+      root->right = delNode(root->right,root->data);
+      // now delete that element from the right subtree as swapping is over
     }
   }
 
