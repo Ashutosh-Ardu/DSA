@@ -214,6 +214,35 @@ void heapSort(int *ar,int n){
   }
 }
 
+void countSort(int *ar,int n){
+	int output[n];// creating the output array
+	int count[1000] = {0};// array size determined by the largest possible value in the array
+
+	// counting the occurrence of each element in the array
+	for(int i=0;i<n;++i)
+		count[ar[i]]++;
+	
+	//setting up count array so tht it can be used fr mapping the elements of ar array
+	// by adding up the adjacent values u can avoid collision while inserting elements 
+	// from ar --> output array , it is somethg like linear probing 
+	for(int i=1;i<1000;++i)
+		count[i] += count[i-1];
+	
+	// inserting ar --> output
+	// via mapping through count
+	// output[count[ar[i]]-1] = ar[i];
+	// later doing,
+	// count[ar[i]]--; ,somethg like linear probing 
+	for(int i=0;i<n;++i){
+		output[count[ar[i]]-1] = ar[i];
+		count[ar[i]]--;
+	}
+
+	// reinserting the newly sorted array (output) back to "ar" array
+	for(int i=0;i<n;++i)
+		ar[i] = output[i];
+}
+
 int main(){
   int n;
   cout<<"Total Values: ";
@@ -233,6 +262,7 @@ int main(){
   // quickSortFirst(ar,0,n-1);
   // quickSortLast(ar,0,n-1);
   // quickSortMid(ar,0,n-1);
-  heapSort(ar,n);
+  // heapSort(ar,n);
+  countSort(ar,n);
   print(ar,n);
 }
