@@ -53,7 +53,7 @@ void insertionSort(int *ar,int n){
     k=ar[i];//key value for comparision
     j=i-1;
     while(j>=0 && ar[j]>k){
-      swap(ar[j],ar[j+1]);
+      ar[j+1] = ar[j];
       j--;
     }ar[j+1]=k;//as after swapping j+1 slot is emptied
   }
