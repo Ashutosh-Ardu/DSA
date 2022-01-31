@@ -243,6 +243,66 @@ void countSort(int *ar,int n){
 		ar[i] = output[i];
 }
 
+// optimizing insertion sort with the help of gaps
+// to reduce the number of swaps
+void shellSort(int *ar,int n){
+  for(int gap = n/2 ; gap > 0 ;gap/=2){
+    /*
+      this gap loop cause the main array to be broken down into
+      smaller subarrays which are sorted using insertion sort
+      eg :- 
+       54 25 84 90 7 12 gap = 3 ,initially 
+       first subarray
+    (j-gap) j
+       54 , 7 after swapping 7,54 final array --> 7 25 84 90 54 12
+       j loop break so j<gap
+       i++
+       now the subarray is
+       25 , 12 after swapping 12 , 25 final array --> 7 12 84 90 54 25
+       j loop breaks and i>n
+       hence gap becomes 1 i.e. same as insertion sort
+       (but the gap based subarray has drastically decreased the no of swaps
+       as done earlier in insertion sort hence, its optimized) 
+    */
+    for(int i = gap; i<n ; ++i){// setting up the subarray and iterating with constant gap
+      int key = ar[i];// applying normal insertion sort
+      int j;
+      for(j = i; j>=gap && ar[j-gap] > key; j-= gap)
+        ar[j] = ar[j-gap];
+      ar[j] = key;
+    }
+  }
+}
+
+// another way of optimizing insertion sort
+struct buckets{
+  int ar[50];// creating a list for 
+  int n;//inserting the elements via indexing
+};
+
+void bucketSort(int *ar,int n){
+  buckets b[10];
+  for(int i=0;i<10;++i)
+    b[i].n =0;// initializing the buckets
+
+  for(int i=0;i<n;++i){
+    int k = ar[i] / 100;// depending upon the type of values
+    b[k].ar[b[k].n] = ar[i];//for eg if its 0.7,0.9... thn giv 10*ar[i]
+    b[k].n += 1;//or if its 10,11...2digits thn giv a[i] % 10
+    // insert the element into their respective bucket according to the
+    // key thy produce
+  }
+
+  for(int i=0;i<10;++i)// sorting each bucket using insertion sort
+    insertionSort(b[i].ar,b[i].n);
+  
+  int index = 0;//reinserting the buckets back into the array
+  for(int i=0;i<10;++i){
+    for(int j=0;j<b[i].n;++j)
+      ar[index++] = b[i].ar[j];
+  }
+}
+
 int main(){
   int n;
   cout<<"Total Values: ";
@@ -263,6 +323,8 @@ int main(){
   // quickSortLast(ar,0,n-1);
   // quickSortMid(ar,0,n-1);
   // heapSort(ar,n);
-  countSort(ar,n);
+  // countSort(ar,n);
+  // shellSort(ar,n);
+  bucketSort(ar,n);
   print(ar,n);
 }
