@@ -109,7 +109,7 @@ void del(tree* &root,int item){
     // cause we always wanna be "right" :) pun intended
     // we delete the node which is moved to the newly
     // vacated area as it no longer needed in its old position
-    int temp=cur->data;
+    int temp = ptr->data;
     del(root,temp);
     // and just change the value of the complete node
     // as only the node->data changes not the left & right
